@@ -1,0 +1,100 @@
+swagger: '2.0'
+info:
+  description:
+    This API provides operations on the catalog (categories, products, etc.)
+  version: 1.0.0
+  title: Catalog API
+  # put the contact info for your development or API team
+  contact:
+    email: admin@geauxcommerce.org
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# all paths will be relative to the basePath specified
+# basePath: /v1
+
+# tags are used for organizing operations
+tags:
+- name: categories
+  description: manages categories
+
+schemes:
+- http
+- https
+
+paths:
+  /categories/{id}:
+    parameters:
+      - $ref: "#/parameters/idPathParam"
+    get:
+      tags:
+      - categories
+      summary: retrieves category
+      operationId: getCategory
+      description: Retrieves a category given it's id
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Category details
+          schema:
+            $ref: '#/definitions/Category'
+        400:
+          description: bad input parameter
+
+  /categories:
+    post:
+      tags:
+      - categories
+      summary: adds a category
+      operationId: addCategory
+      description: Adds a category to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Category
+        description: Category to add
+        schema:
+          $ref: '#/definitions/Category'
+      responses:
+        201:
+          description: Category created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing Category already exists
+parameters:
+  idPathParam:
+    name: id
+    description: The id of the item
+    type: integer
+    format: int64
+    in: path
+    required: true
+definitions:
+  Category:
+    type: object
+    required:
+    - id
+    - name
+    - description
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Boys
+      description:
+        type: string
+        example: This is the boys department
+# Added by API Auto Mocking Plugin
+host: "catalog-api.endpoints.crossview-services.cloud.goog"
+basePath: /
+
+# Service Configuration [2017-03-05r0] uploaded for service [catalog-api.endpoints.crossview-services.cloud.goog]
