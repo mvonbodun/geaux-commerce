@@ -1,15 +1,15 @@
 package catalogsvc
 
 import (
+	"context"
 	"errors"
 	"log"
 	"strconv"
 
-	"golang.org/x/net/context"
-
 	"github.com/mvonbodun/geaux-commerce/catalogsvc/category"
 )
 
+// ErrInvalidArgument holds the error message
 var ErrInvalidArgument = errors.New("invalid argument")
 
 // Service provides the API to the catalogsvc

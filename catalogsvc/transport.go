@@ -2,13 +2,12 @@ package catalogsvc
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-kit/kit/log"
 	httptransport "github.com/go-kit/kit/transport/http"
@@ -36,14 +35,12 @@ func MakeHTTPHandler(ctx context.Context, s Service, logger log.Logger) http.Han
 	// GET      /categories/:id                     retrieves the given category by id
 
 	r.Methods("POST").Path("/categories").Handler(httptransport.NewServer(
-		ctx,
 		e.PostCategoryEndpoint,
 		decodePostCategoryRequest,
 		encodeResponse,
 		options...,
 	))
 	r.Methods("GET").Path("/categories/{id}").Handler(httptransport.NewServer(
-		ctx,
 		e.GetCategoryEndpoint,
 		decodeGetCategoryRequest,
 		encodeResponse,
