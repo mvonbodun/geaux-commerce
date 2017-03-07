@@ -1,14 +1,13 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-kit/kit/log"
 	"github.com/mvonbodun/geaux-commerce/catalogsvc"
@@ -24,8 +23,8 @@ func main() {
 	var logger log.Logger
 	{
 		logger = log.NewLogfmtLogger(os.Stderr)
-		logger = log.NewContext(logger).With("ts", log.DefaultTimestampUTC)
-		logger = log.NewContext(logger).With("caller", log.DefaultCaller)
+		logger = log.With(logger, "ts", log.DefaultTimestampUTC)
+		logger = log.With(logger, "caller", log.DefaultCaller)
 	}
 
 	var ctx context.Context
@@ -40,7 +39,7 @@ func main() {
 
 	var h http.Handler
 	{
-		h = catalogsvc.MakeHTTPHandler(ctx, s, log.NewContext(logger).With("component", "HTTP"))
+		h = catalogsvc.MakeHTTPHandler(ctx, s, log.With(logger, "component", "HTTP"))
 	}
 
 	errs := make(chan error)
